@@ -1,0 +1,18 @@
+---
+- debug:
+    msg: "oah-remove of RedHat Ansible"
+
+- name: Check Ansible installation
+  #become: yes
+  become_user: "{{ lookup('ansible.builtin.env', 'USER')|default('nobody', True) }}"
+  shell: ansible --version
+  register: ansible_output
+  ignore_errors: true
+
+- name: Remove RedHat Ansible
+  #become: yes
+  become_user: "{{ lookup('ansible.builtin.env', 'USER')|default('nobody', True) }}"
+  pip:
+    name: ansible
+    state: absent
+  when: ansible_output.rc == 0

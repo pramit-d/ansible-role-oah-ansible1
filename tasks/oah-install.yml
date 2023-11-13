@@ -1,0 +1,37 @@
+---
+- debug:
+    msg: "oah-install of RedHat Ansible"
+
+- name: Update and upgrade apt packages
+  become: yes
+  #become_user: "{{ lookup('ansible.builtin.env', 'USER')|default('nobody', True) }}"
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: Installing Ansible dependencies
+  become: yes
+  #become_user: "{{ lookup('ansible.builtin.env', 'USER')|default('nobody', True) }}"
+  block:
+    - name: Checking pip Installation
+      shell: python3 -m pip -V
+      register: pip_output
+      ignore_errors: true
+
+    - name: Install PIP
+      shell: apt install -y python3-pip
+      when: pip_output.rc != 0
+
+- name: Checking Ansible Installation
+  become_user: "{{ system_user }}"
+  shell: ansible --version
+  register: ansible_output
+  ignore_errors: true
+
+- name: Install RedHat Ansible
+  become: yes
+  become_user: "{{ system_user }}"
+  shell: python3 -m pip install --user ansible
+  when: ansible_output.rc != 0
+  

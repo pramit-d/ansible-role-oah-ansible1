@@ -1,0 +1,19 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Praimt Kumar Dutta
+  description:  "Ansible role to install and update RedHat Ansible"
+  company: ""
+  license: "Apache License"
+  min_ansible_version: 2.0
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - networking
+    - system

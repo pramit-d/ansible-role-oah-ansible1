@@ -1,0 +1,15 @@
+---
+- name: Check Ansible installation
+  command: ansible --version
+  register: ansible_output
+  ignore_errors: true
+
+- name: Message
+  debug:
+    msg: "Ansible found - {{ ansible_output.stdout_lines | select('match', 'ansible \\[core') | map('regex_replace', '.*ansible \\[core (.*)\\]', '\\1') | first }}"
+  when: ansible_output.rc == 0
+
+- name: Message
+  debug:
+    msg: "Ansible not found"
+  when: ansible_output.rc != 0

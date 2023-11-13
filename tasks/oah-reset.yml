@@ -1,0 +1,8 @@
+--
+- debug:
+    msg: "oah-reset of RedHat Ansible"
+
+- name: Update RedHat Ansible
+  block:
+    include_tasks: oah-remove.yml
+    include_tasks: oah-install.yml
